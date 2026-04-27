@@ -1241,7 +1241,7 @@
 </div><!-- end form-container -->
 
 <!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jsPDF + html2canvas -->
@@ -1250,7 +1250,7 @@
 <!-- Signature Pad -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 <!-- Google Drive Config -->
-<script src="assets/google-drive-config.js"></script>
+
 
 <script>
 // ===== ACADEMIC YEAR =====
@@ -1660,87 +1660,41 @@ async function generatePDF() {
 }
 
 // ===== GOOGLE DRIVE INTEGRATION =====
-let accessToken = null;
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwcofWskSPQfNfzoAARJRKnRO93uQkv5UuJKkkQmZHP_QQQAPokJ0TPY6jDH9Re4t1Ag/exec';
 
-async function getAccessToken() {
+function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
-    if (accessToken) { resolve(accessToken); return; }
-    const client = google.accounts.oauth2.initTokenClient({
-      client_id: GOOGLE_DRIVE_CONFIG.CLIENT_ID,
-      scope: GOOGLE_DRIVE_CONFIG.SCOPES,
-      callback: (response) => {
-        if (response.error) { reject(response); return; }
-        accessToken = response.access_token;
-        resolve(accessToken);
-      }
-    });
-    client.requestAccessToken();
-  });
-}
-
-async function findOrCreateFolder(name, parentId) {
-  const token = await getAccessToken();
-  // Search for existing
-  let query = `mimeType='application/vnd.google-apps.folder' and name='${name}' and trashed=false`;
-  if (parentId) query += ` and '${parentId}' in parents`;
-
-  const searchRes = await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name)`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  const searchData = await searchRes.json();
-  if (searchData.files && searchData.files.length > 0) return searchData.files[0].id;
-
-  // Create folder
-  const body = { name, mimeType: 'application/vnd.google-apps.folder' };
-  if (parentId) body.parents = [parentId];
-  const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  const folder = await createRes.json();
-  return folder.id;
-}
-
-async function uploadFileToDrive(fileBlob, fileName, mimeType, parentId) {
-  const token = await getAccessToken();
-  const metadata = { name: fileName, parents: [parentId] };
-  const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-  form.append('file', fileBlob, fileName);
-
-  await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
-    body: form
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
   });
 }
 
 async function saveToGoogleDrive(pdfBlob, additionalFiles) {
-  const rootId = GOOGLE_DRIVE_CONFIG.ROOT_FOLDER_ID || null;
-  const scholarshipFolder = await findOrCreateFolder(GOOGLE_DRIVE_CONFIG.ROOT_FOLDER_NAME, rootId);
-  const yearFolder = await findOrCreateFolder(academicYear.short, scholarshipFolder);
+  const lastName   = document.getElementById('lastName').value.trim();
+  const firstName  = document.getElementById('firstName').value.trim();
+  const personName = `${lastName}_${firstName}`;
+  const category   = currentType === 'studies' ? 'לימודים' : 'מצטיינים';
+  const formType   = currentType === 'studies' ? 'מלגת_לימודים' : 'מלגת_הצטיינות';
+  const fileName   = `${formType}_${lastName}_${firstName}_${academicYear.short}.pdf`;
 
-  const subFolderName = currentType === 'studies' ? 'לימודים' : 'מצטיינים';
-  const typeFolder = await findOrCreateFolder(subFolderName, yearFolder);
+  const base64 = await blobToBase64(pdfBlob);
 
-  const lastName = document.getElementById('lastName').value.trim();
-  const firstName = document.getElementById('firstName').value.trim();
-  const candidateName = `${firstName} ${lastName}`;
-  const candidateFolder = await findOrCreateFolder(candidateName, typeFolder);
+  const response = await fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      pdf: base64,
+      fileName,
+      year: academicYear.short,
+      personName,
+      category
+    })
+  });
 
-  // Upload PDF
-  const formType = currentType === 'studies' ? 'מלגת_לימודים' : 'מלגת_הצטיינות';
-  await uploadFileToDrive(pdfBlob, `${formType}_${candidateName}_${academicYear.short}.pdf`, 'application/pdf', candidateFolder);
-
-  // Upload additional documents
-  for (const { file, label } of additionalFiles) {
-    if (file) {
-      const ext = file.name.split('.').pop();
-      await uploadFileToDrive(file, `${label}_${candidateName}.${ext}`, file.type, candidateFolder);
-    }
-  }
+  const result = await response.json();
+  if (!result.success) throw new Error(result.error || 'שגיאה בשמירה');
 }
 
 // ===== FORM SUBMIT =====
