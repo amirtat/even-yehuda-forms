@@ -1662,6 +1662,7 @@ async function generatePDF() {
 // ===== GOOGLE DRIVE INTEGRATION =====
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxMe2Tc8NhpNQAU_cYC_KgmfN_aXwm8cJosbi2v0UTbBCj7xgUrdOt9fdV9kkJCYS8HYA/exec';
 
+
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1679,18 +1680,32 @@ async function saveToGoogleDrive(pdfBlob, additionalFiles) {
   const formType   = currentType === 'studies' ? 'מלגת_לימודים' : 'מלגת_הצטיינות';
   const fileName   = `${formType}_${lastName}_${firstName}_${academicYear.short}.pdf`;
 
-  const base64 = await blobToBase64(pdfBlob);
+  const pdfBase64 = await blobToBase64(pdfBlob);
+
+  // המרת קבצים מצורפים ל-base64
+  const attachments = [];
+  for (const { file, label } of additionalFiles) {
+    if (!file) continue;
+    const ext  = file.name.split('.').pop();
+    const data = await blobToBase64(file);
+    attachments.push({
+      fileName: `${label}_${lastName}_${firstName}.${ext}`,
+      mimeType: file.type || 'application/octet-stream',
+      data
+    });
+  }
 
   await fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
-      pdf: base64,
+      pdf: pdfBase64,
       fileName,
       year: academicYear.short,
       personName,
-      category
+      category,
+      attachments
     })
   });
 }
