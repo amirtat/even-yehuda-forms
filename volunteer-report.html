@@ -482,7 +482,6 @@
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 <!-- Google Drive Config -->
 
-
 <script>
 // ===== ACADEMIC YEAR =====
 function getAcademicYear() {
@@ -713,9 +712,10 @@ async function saveToGoogleDrive(pdfBlob) {
   const fileName = `דוח_התנדבות_${personName}_${academicYear.short}.pdf`;
   const base64   = await blobToBase64(pdfBlob);
 
-  const response = await fetch(APPS_SCRIPT_URL, {
+  await fetch(APPS_SCRIPT_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({
       pdf: base64,
       fileName,
@@ -725,8 +725,6 @@ async function saveToGoogleDrive(pdfBlob) {
     })
   });
 
-  const result = await response.json();
-  if (!result.success) throw new Error(result.error || 'שגיאה בשמירה');
 }
 
 // ===== FORM SUBMIT =====
