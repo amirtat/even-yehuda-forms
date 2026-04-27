@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>בקשה למלגה — המועצה המקומית אבן יהודה</title>
+
+  <!-- Bootstrap 5 RTL -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <!-- Google Fonts: Heebo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #216FF3;
+      --primary-dark: #1557c9;
+      --primary-light: #e8f0fe;
+      --accent: #0693e3;
+      --text: #333333;
+      --text-muted: #6c757d;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --border: #dee2e6;
+      --required-color: #dc3545;
+      --success: #198754;
+      --section-header-bg: #eef3fd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== HEADER ===== */
+    .form-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 28px 0 20px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(33,111,243,0.18);
+    }
+    .form-header .municipal-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+    .form-header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0;
+    }
+    .form-header .year-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 13px;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* ===== PROGRESS ===== */
+    .progress-wrap {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .progress-steps li {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .progress-steps li .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      margin-left: 6px;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .progress-steps li.active .step-num {
+      background: var(--primary);
+      color: #fff;
+    }
+    .progress-steps li.done .step-num {
+      background: var(--success);
+      color: #fff;
+    }
+    .progress-steps li.active { color: var(--primary); }
+    .progress-steps li.done { color: var(--success); }
+    .step-divider {
+      width: 30px;
+      height: 2px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+    .step-divider.done { background: var(--success); }
+
+    /* ===== MAIN CONTENT ===== */
+    .form-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    /* ===== TYPE SELECTOR ===== */
+    .type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .type-card {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      background: var(--card-bg);
+      position: relative;
+    }
+    .type-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(33,111,243,0.12);
+    }
+    .type-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 4px 20px rgba(33,111,243,0.18);
+    }
+    .type-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .type-card .type-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .type-card .type-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .type-card .type-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .type-card.selected .type-title { color: var(--primary); }
+    .type-card .check-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 22px;
+      height: 22px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+    }
+    .type-card.selected .check-badge { display: flex; }
+
+    /* ===== SECTION CARD ===== */
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .section-header {
+      background: var(--section-header-bg);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-num {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    .section-body {
+      padding: 20px;
+    }
+
+    /* ===== FORM ELEMENTS ===== */
+    .form-label {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+    .form-label.required::after {
+      content: ' *';
+      color: var(--required-color);
+      font-weight: 700;
+    }
+    .form-control, .form-select {
+      font-family: 'Heebo', sans-serif;
+      font-size: 14px;
+      border-color: var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(33,111,243,0.12);
+    }
+    .form-control.is-invalid { border-color: var(--required-color); }
+    .invalid-feedback { font-size: 12px; }
+
+    /* Radio & Checkbox styled */
+    .form-check-input:checked {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+    .form-check-input:focus {
+      box-shadow: 0 0 0 3px rgba(33,111,243,0.15);
+      border-color: var(--primary);
+    }
+    .form-check-label { font-size: 14px; cursor: pointer; }
+
+    /* Inline radio group */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+    }
+    .radio-group .form-check {
+      padding: 8px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin: 0;
+    }
+    .radio-group .form-check:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .radio-group .form-check-input { margin-left: 6px; }
+
+    /* Checkbox group */
+    .checkbox-item {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .checkbox-item:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .checkbox-item .sub-fields {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .checkbox-item:has(input:checked) .sub-fields { display: block; }
+
+    /* Volunteer options */
+    .volunteer-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .volunteer-option:has(input:checked) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .volunteer-option input { margin-top: 3px; flex-shrink: 0; }
+    .volunteer-option .v-text { font-size: 14px; }
+    .volunteer-option .v-title { font-weight: 600; }
+    .volunteer-option .v-desc { font-size: 12px; color: var(--text-muted); }
+
+    /* Documents table */
+    .docs-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .docs-table th {
+      background: var(--section-header-bg);
+      padding: 10px 12px;
+      text-align: right;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+    }
+    .docs-table td {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .docs-table tr:nth-child(even) td { background: #fafbff; }
+    .docs-table .badge-required {
+      font-size: 11px;
+      background: #fff0f0;
+      color: var(--required-color);
+      border: 1px solid #fcc;
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .docs-table .badge-optional {
+      font-size: 11px;
+      background: #f0f4ff;
+      color: #5577cc;
+      border: 1px solid #c5d3f5;
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .upload-btn {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .file-chosen { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+    /* Signature pad */
+    .sig-wrap {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fafafa;
+      position: relative;
+    }
+    .sig-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 120px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+    .sig-hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 13px;
+      color: #bbb;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .sig-wrap.has-sig .sig-hint { display: none; }
+    .sig-clear-btn {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+
+    /* Declaration box */
+    .declaration-box {
+      background: #fffbf0;
+      border: 1px solid #f0d080;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    /* Submit area */
+    .submit-area {
+      text-align: center;
+      padding-top: 8px;
+    }
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 48px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+      box-shadow: 0 4px 14px rgba(33,111,243,0.28);
+    }
+    .btn-submit:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(33,111,243,0.34);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { background: #aaa; box-shadow: none; cursor: not-allowed; }
+
+    /* Status messages */
+    .status-msg {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .status-msg.show { display: block; }
+
+    /* Note box */
+    .note-box {
+      background: #f0f4ff;
+      border-right: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #3355bb;
+      margin-bottom: 14px;
+    }
+
+    /* Helper text */
+    .form-text { font-size: 12px; color: var(--text-muted); }
+
+    /* Responsive */
+    @media (max-width: 576px) {
+      .type-selector { grid-template-columns: 1fr; }
+      .radio-group { flex-direction: column; }
+      .form-header h1 { font-size: 18px; }
+      .progress-steps li span:not(.step-num) { display: none; }
+      .step-divider { width: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="form-header">
+  <div class="municipal-name">המועצה המקומית אבן יהודה</div>
+  <h1>בקשה למלגה</h1>
+  <div class="year-badge" id="headerYear">שנת הלימודים ...</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <ul class="progress-steps" id="progressSteps">
+    <li class="active" data-step="0">
+      <span class="step-num">1</span><span>סוג המלגה</span>
+    </li>
+    <div class="step-divider" id="div1"></div>
+    <li data-step="1">
+      <span class="step-num">2</span><span>פרטים אישיים</span>
+    </li>
+    <div class="step-divider" id="div2"></div>
+    <li data-step="2">
+      <span class="step-num">3</span><span>פרטי הבקשה</span>
+    </li>
+    <div class="step-divider" id="div3"></div>
+    <li data-step="3">
+      <span class="step-num">4</span><span>מסמכים</span>
+    </li>
+    <div class="step-divider" id="div4"></div>
+    <li data-step="4">
+      <span class="step-num">5</span><span>הצהרה וחתימה</span>
+    </li>
+  </ul>
+</div>
+
+<!-- MAIN FORM -->
+<div class="form-container">
+  <form id="scholarshipForm" novalidate>
+
+    <!-- ===== SECTION 0: TYPE SELECTION ===== -->
+    <div class="section-card" id="sec-type">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2 class="section-title">בחירת סוג המלגה</h2>
+      </div>
+      <div class="section-body">
+        <p class="text-muted mb-3" style="font-size:14px">בחרו את סוג המלגה המתאים לכם — הטופס יתאים את עצמו בהתאם</p>
+        <div class="type-selector" id="typeSelector">
+          <label class="type-card" id="cardStudies">
+            <input type="radio" name="scholarshipType" value="studies" id="typeStudies">
+            <span class="check-badge">✓</span>
+            <span class="type-icon">🎓</span>
+            <div class="type-title">מלגת לימודים</div>
+            <div class="type-sub">מלגת פיס לסטודנטים</div>
+          </label>
+          <label class="type-card" id="cardExcellence">
+            <input type="radio" name="scholarshipType" value="excellence" id="typeExcellence">
+            <span class="check-badge">✓</span>
+            <span class="type-icon">🏆</span>
+            <div class="type-title">מלגת הצטיינות</div>
+            <div class="type-sub">ספורט / מוזיקה / אמנות</div>
+          </label>
+        </div>
+        <div class="invalid-feedback d-block" id="typeError" style="display:none!important"></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 1: PERSONAL DETAILS ===== -->
+    <div class="section-card" id="sec-personal">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2 class="section-title">פרטי המבקש/ת</h2>
+      </div>
+      <div class="section-body">
+        <div class="row g-3">
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="idNum">מספר ת.ז.</label>
+            <input type="text" class="form-control" id="idNum" name="idNum" maxlength="9" pattern="[0-9]{9}" placeholder="000000000" required>
+            <div class="invalid-feedback">נא להזין מספר ת.ז. תקין (9 ספרות)</div>
+          </div>
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="lastName">שם משפחה</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="firstName">שם פרטי</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="birthYear">שנת לידה</label>
+            <input type="number" class="form-control" id="birthYear" name="birthYear" min="1940" max="2015" placeholder="YYYY" required>
+            <div class="invalid-feedback">נא להזין שנת לידה תקינה</div>
+          </div>
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="maritalStatus">מצב משפחתי</label>
+            <select class="form-select" id="maritalStatus" name="maritalStatus" required>
+              <option value="">בחרו...</option>
+              <option>רווק/ה</option>
+              <option>נשוי/אה</option>
+              <option>גרוש/ה</option>
+              <option>אלמן/ה</option>
+            </select>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+
+          <!-- Excellence only: excellence area -->
+          <div class="col-sm-4 col-12 excellence-only" style="display:none">
+            <label class="form-label required" for="excellenceAreaWrap">תחום הצטיינות</label>
+            <div id="excellenceAreaWrap">
+              <div class="radio-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="excellenceArea" id="areaSport" value="sport">
+                  <label class="form-check-label" for="areaSport">ספורט</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="excellenceArea" id="areaMusic" value="music">
+                  <label class="form-check-label" for="areaMusic">מוזיקה</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="excellenceArea" id="areaArt" value="art">
+                  <label class="form-check-label" for="areaArt">אמנות</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="excellenceArea" id="areaOther" value="other">
+                  <label class="form-check-label" for="areaOther">אחר</label>
+                </div>
+              </div>
+              <input type="text" class="form-control mt-2" id="excellenceAreaOther" name="excellenceAreaOther" placeholder="פרט תחום..." style="display:none">
+              <div class="invalid-feedback" id="excellenceAreaError">נא לבחור תחום הצטיינות</div>
+            </div>
+          </div>
+
+          <div class="col-sm-4 col-6">
+            <label class="form-label required" for="city">יישוב</label>
+            <input type="text" class="form-control" id="city" name="city" value="אבן יהודה" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-8 col-12">
+            <label class="form-label required" for="streetAndNum">רחוב ומספר בית</label>
+            <input type="text" class="form-control" id="streetAndNum" name="streetAndNum" placeholder='לדוגמה: הרצל 12' required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-6 col-12">
+            <label class="form-label required" for="phone">טלפון נייד</label>
+            <input type="tel" class="form-control" id="phone" name="phone" pattern="05[0-9]{8}" placeholder="05X-XXXXXXX" required>
+            <div class="invalid-feedback">נא להזין מספר נייד תקין</div>
+          </div>
+          <div class="col-sm-6 col-12">
+            <label class="form-label required" for="email">דואר אלקטרוני</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com" required>
+            <div class="invalid-feedback">נא להזין כתובת אימייל תקינה</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 2: SPORT DETAILS (excellence + sport only) ===== -->
+    <div class="section-card sport-only" id="sec-sport" style="display:none">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2 class="section-title">פרטי ספורט</h2>
+      </div>
+      <div class="section-body">
+        <div class="row g-3 mb-4">
+          <div class="col-sm-4">
+            <label class="form-label required" for="clubName">שם האגודה</label>
+            <input type="text" class="form-control" id="clubName" name="clubName">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-4">
+            <label class="form-label required" for="coachName">שם המאמן/ת</label>
+            <input type="text" class="form-control" id="coachName" name="coachName">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-4">
+            <label class="form-label required" for="coachPhone">טלפון נייד של המאמן/ת</label>
+            <input type="tel" class="form-control" id="coachPhone" name="coachPhone" placeholder="05X-XXXXXXX">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+        </div>
+
+        <p class="fw-bold mb-2" style="font-size:14px">הישגים (סמנו את המתאים — ניתן לבחור יותר מאחד):</p>
+
+        <!-- Israel Championship — dynamic rows -->
+        <div class="checkbox-item" id="israelChampWrap">
+          <div class="fw-bold mb-2" style="font-size:14px">השתתפתי באליפות ישראל וזכיתי:</div>
+          <div id="israelRows"></div>
+          <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addIsraelRow()">+ הוסף הישג נוסף</button>
+        </div>
+
+        <!-- Europe/World Championship — dynamic rows -->
+        <div class="checkbox-item" id="europeChampWrap">
+          <div class="fw-bold mb-2" style="font-size:14px">השתתפתי באליפות אירופה / עולם:</div>
+          <div id="europeRows"></div>
+          <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addEuropeRow()">+ הוסף הישג נוסף</button>
+        </div>
+
+        <!-- Israel National Team -->
+        <div class="checkbox-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="chkNational" name="chkNational">
+            <label class="form-check-label fw-600" for="chkNational">
+              פעיל/ה בנבחרת ישראל
+            </label>
+          </div>
+          <div class="sub-fields">
+            <div class="row g-2">
+              <div class="col-sm-6">
+                <label class="form-label" for="nationalBranch">ענף</label>
+                <input type="text" class="form-control form-control-sm" id="nationalBranch" name="nationalBranch">
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label" for="nationalAge">גיל</label>
+                <input type="text" class="form-control form-control-sm" id="nationalAge" name="nationalAge">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paralympics -->
+        <div class="checkbox-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="chkParalympics" name="chkParalympics">
+            <label class="form-check-label fw-600" for="chkParalympics">
+              פעיל/ה בנבחרת פאראולימפיקס המייצגת את ישראל
+            </label>
+          </div>
+          <div class="sub-fields">
+            <label class="form-label" for="paralympicsBranch">ענף</label>
+            <input type="text" class="form-control form-control-sm" id="paralympicsBranch" name="paralympicsBranch">
+          </div>
+        </div>
+
+        <!-- Special Olympics -->
+        <div class="checkbox-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="chkSpecial" name="chkSpecial">
+            <label class="form-check-label fw-600" for="chkSpecial">
+              פעיל/ה בנבחרת ספיישל אולימפיקס המייצגת את ישראל
+            </label>
+          </div>
+          <div class="sub-fields">
+            <label class="form-label" for="specialBranch">ענף</label>
+            <input type="text" class="form-control form-control-sm" id="specialBranch" name="specialBranch">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 3: STUDIES DETAILS (studies only) ===== -->
+    <div class="section-card studies-only" id="sec-studies" style="display:none">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2 class="section-title">פרטי הלימודים</h2>
+      </div>
+      <div class="section-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label required" for="instituteName">שם המוסד האקדמי</label>
+            <input type="text" class="form-control" id="instituteName" name="instituteName">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label required">לימודי תואר</label>
+            <div class="radio-group">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="degreeType" id="deg1" value="ראשון">
+                <label class="form-check-label" for="deg1">ראשון</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="degreeType" id="deg2" value="שני">
+                <label class="form-check-label" for="deg2">שני</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="degreeType" id="deg3" value="שלישי">
+                <label class="form-check-label" for="deg3">שלישי</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="degreeType" id="deg4" value="אחר">
+                <label class="form-check-label" for="deg4">אחר (הוראה / הנדסאי / קורס וכו')</label>
+              </div>
+            </div>
+            <div class="invalid-feedback d-block" id="degreeTypeError" style="display:none!important"></div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label required" for="studyField">תחום לימודים</label>
+            <input type="text" class="form-control" id="studyField" name="studyField">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-3">
+            <label class="form-label required" for="studyStartYear">שנת תחילת לימודים</label>
+            <input type="number" class="form-control" id="studyStartYear" name="studyStartYear" min="2000" max="2030" placeholder="YYYY">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-3">
+            <label class="form-label required" for="yearsLeft">שנות לימוד שנותרו</label>
+            <input type="number" class="form-control" id="yearsLeft" name="yearsLeft" min="1" max="10">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label required" for="weeklyHours">מספר שעות לימוד שבועיות</label>
+            <input type="number" class="form-control" id="weeklyHours" name="weeklyHours" min="1" max="100">
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 4: VOLUNTEER (studies only) ===== -->
+    <div class="section-card studies-only" id="sec-volunteer" style="display:none">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2 class="section-title">התנדבות חברתית למען הקהילה</h2>
+      </div>
+      <div class="section-body">
+        <p class="text-muted mb-3" style="font-size:13px">נא לסמן את המסגרות ההתנדבותיות המועדפות עליך — ניתן לבחור יותר מאחד <span style="color:var(--required-color);font-weight:700">*</span></p>
+
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="הסל של מיכל">
+          <div class="v-text">
+            <div class="v-title">הסל של מיכל</div>
+            <div class="v-desc">לדוגמה: אריזה לחלוקה של אוכל יבש ואוכל מבושל</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="אקים">
+          <div class="v-text">
+            <div class="v-title">אקים</div>
+            <div class="v-desc">לדוגמה: התנדבות בהוסטל, פעילות עם הדיירים / עזרה בגינה</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="שווים באבן יהודה">
+          <div class="v-text">
+            <div class="v-title">שווים באבן יהודה</div>
+            <div class="v-desc">לדוגמה: חניכה של ילדים עם צרכים מיוחדים</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="יחידת הנוער">
+          <div class="v-text">
+            <div class="v-title">יחידת הנוער</div>
+            <div class="v-desc">לדוגמה: עזרה בשיעורי בית</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="מרכז קהילתי">
+          <div class="v-text">
+            <div class="v-title">מרכז קהילתי</div>
+            <div class="v-desc">לדוגמה: ליווי בחוגים ילדים שצריכים עזרה</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="פעילות בספריה">
+          <div class="v-text">
+            <div class="v-title">פעילות בספריה</div>
+            <div class="v-desc">לדוגמה: עזרה בהכנת שיעורי בית לילדי בי"ס יסודי</div>
+          </div>
+        </label>
+        <label class="volunteer-option">
+          <input type="checkbox" name="volunteerOption" value="שירות מילואים">
+          <div class="v-text">
+            <div class="v-title">שירות מילואים</div>
+            <div class="v-desc">שירות מתוכנן לשנת הלימודים</div>
+          </div>
+        </label>
+        <label class="volunteer-option" id="volunteerOtherOption">
+          <input type="checkbox" name="volunteerOption" value="אחר">
+          <div class="v-text">
+            <div class="v-title">אחר</div>
+            <div class="v-desc">יש לצרף מסמכים המלמדים על מקום ההתנדבות</div>
+          </div>
+        </label>
+        <div id="volunteerOtherText" style="display:none" class="mt-2">
+          <label class="form-label" for="volunteerOtherDesc">פרט את מקום ההתנדבות:</label>
+          <textarea class="form-control" id="volunteerOtherDesc" name="volunteerOtherDesc" rows="3"></textarea>
+        </div>
+        <div class="invalid-feedback d-block" id="volunteerError" style="display:none!important"></div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 5: DECLARATIONS ===== -->
+    <div class="section-card" id="sec-declarations">
+      <div class="section-header">
+        <div class="section-num" id="declSecNum">5</div>
+        <h2 class="section-title">הצהרות מבקש/ת המלגה</h2>
+      </div>
+      <div class="section-body">
+        <!-- Checkbox: residence -->
+        <div class="checkbox-item mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="declResident" name="declResident" required>
+            <label class="form-check-label" for="declResident">
+              <strong>הנני רשום/ה במרשם האוכלוסין כתושב/ת אבן יהודה, ומתגורר/ת בפועל בישוב</strong><span class="studies-only" style="display:none">.</span><strong class="excellence-only" style="display:none"> לפחות שנה.</strong><span style="color:var(--required-color);font-weight:700;font-size:13px"> *</span>
+            </label>
+          </div>
+          <div class="invalid-feedback">שדה חובה</div>
+        </div>
+
+        <!-- Radio: submitted before -->
+        <div class="mb-3">
+          <label class="form-label required" id="declPrevSubmitLabel">הגשת בקשה בעבר למלגה מהמועצה</label>
+          <div class="radio-group">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="prevSubmitted" id="prevSubYes" value="הגשתי">
+              <label class="form-check-label" for="prevSubYes">הגשתי</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="prevSubmitted" id="prevSubNo" value="לא הגשתי">
+              <label class="form-check-label" for="prevSubNo">לא הגשתי</label>
+            </div>
+          </div>
+          <div class="invalid-feedback d-block" id="prevSubmittedError" style="display:none!important"></div>
+        </div>
+
+        <!-- Radio: received before -->
+        <div class="mb-3">
+          <label class="form-label required" id="declPrevReceivedLabel">קבלת מלגה בעבר מהמועצה</label>
+          <div class="radio-group">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="prevReceived" id="prevRecYes" value="קיבלתי">
+              <label class="form-check-label" for="prevRecYes">קיבלתי</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="prevReceived" id="prevRecNo" value="לא קיבלתי">
+              <label class="form-check-label" for="prevRecNo">לא קיבלתי</label>
+            </div>
+          </div>
+          <div class="invalid-feedback d-block" id="prevReceivedError" style="display:none!important"></div>
+        </div>
+
+        <!-- Conditional: received amount -->
+        <div id="prevAmountWrap" style="display:none" class="mb-3">
+          <div class="note-box">ככל שקיבלת מלגה מהמועצה בעבר, אנא מלא/י:</div>
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <label class="form-label" for="prevYear">שנה בה קיבלת מלגה</label>
+              <input type="number" class="form-control" id="prevYear" name="prevYear" min="2000" max="2030" placeholder="YYYY">
+            </div>
+            <div class="col-sm-4">
+              <label class="form-label" for="prevAmount">סכום המלגה (₪)</label>
+              <input type="number" class="form-control" id="prevAmount" name="prevAmount" min="0" placeholder="0">
+            </div>
+          </div>
+        </div>
+
+        <!-- Studies only: economic reasons -->
+        <div class="studies-only" id="economicDecl" style="display:none">
+          <div class="note-box">
+            הריני מבקש/ת מלגה מטעמים כלכליים, ומצורפת המלצת המחלקה לשירותים חברתיים של המועצה.
+          </div>
+          <label class="form-label" for="economicReasons">נימוקים (לא חובה):</label>
+          <textarea class="form-control" id="economicReasons" name="economicReasons" rows="4" placeholder="פרט/י את הנימוקים הכלכליים..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 6: DOCUMENTS ===== -->
+    <div class="section-card" id="sec-docs">
+      <div class="section-header">
+        <div class="section-num" id="docsSecNum">6</div>
+        <h2 class="section-title">מסמכים לצירוף</h2>
+      </div>
+      <div class="section-body">
+        <div class="note-box mb-3">
+          שדות המסומנים ב-<span class="badge-required">חובה</span> נדרשים לצירוף. שדות <span class="badge-optional">אופציונלי</span> — מומלץ אך לא חובה.
+        </div>
+
+        <!-- Common docs -->
+        <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים נדרשים לכל הבקשות:</h6>
+        <table class="docs-table mb-4">
+          <thead>
+            <tr>
+              <th style="width:55%">מסמך</th>
+              <th style="width:20%">דרישה</th>
+              <th style="width:25%">העלאה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                צילום של תעודת הזהות, כולל הספח עם כתובת מעודכנת באבן יהודה
+                <div class="form-text">ילדים מתחת לגיל 16 — יש לצרף צילום ת.ז. של ההורים כולל הספח</div>
+              </td>
+              <td><span class="badge-required">חובה</span></td>
+              <td>
+                <input type="file" id="docId" name="docId" accept=".pdf,.jpg,.jpeg,.png" class="d-none" required>
+                <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docId')">בחר קובץ</button>
+                <div class="file-chosen" id="docId-name">לא נבחר קובץ</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Studies docs -->
+        <div class="studies-only" id="studiesDocs" style="display:none">
+          <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים ספציפיים למלגת לימודים:</h6>
+          <table class="docs-table mb-4">
+            <thead>
+              <tr>
+                <th style="width:55%">מסמך</th>
+                <th style="width:20%">דרישה</th>
+                <th style="width:25%">העלאה</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>צילום תעודת סטודנט בתוקף לשנת הלימודים, או אישור המוסד על קבלה ללימודים אקדמאיים / המשך תואר</td>
+                <td><span class="badge-required">חובה</span></td>
+                <td>
+                  <input type="file" id="docStudent" name="docStudent" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                  <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docStudent')">בחר קובץ</button>
+                  <div class="file-chosen" id="docStudent-name">לא נבחר קובץ</div>
+                </td>
+              </tr>
+              <tr>
+                <td>אישור גובה שכר הלימוד השנתי</td>
+                <td><span class="badge-required">חובה</span></td>
+                <td>
+                  <input type="file" id="docTuition" name="docTuition" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                  <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docTuition')">בחר קובץ</button>
+                  <div class="file-chosen" id="docTuition-name">לא נבחר קובץ</div>
+                </td>
+              </tr>
+              <tr>
+                <td>בקשת מלגה מטעמים כלכליים — חוות דעת מהמחלקה לשירותים חברתיים באבן יהודה</td>
+                <td><span class="badge-required">חובה</span></td>
+                <td>
+                  <input type="file" id="docSocialWork" name="docSocialWork" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                  <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docSocialWork')">בחר קובץ</button>
+                  <div class="file-chosen" id="docSocialWork-name">לא נבחר קובץ</div>
+                </td>
+              </tr>
+              <tr>
+                <td>טופס הצהרה והתחייבות של מלגאים (נספח מפעל הפיס) חתום ע"י מבקש המלגה</td>
+                <td><span class="badge-required">חובה</span></td>
+                <td>
+                  <input type="file" id="docPisDecl" name="docPisDecl" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                  <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docPisDecl')">בחר קובץ</button>
+                  <div class="file-chosen" id="docPisDecl-name">לא נבחר קובץ</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Excellence docs — all fields -->
+        <div class="excellence-only" id="excellenceDocs" style="display:none">
+          <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים לכל מגישי מלגת הצטיינות:</h6>
+          <table class="docs-table mb-4">
+            <thead>
+              <tr>
+                <th style="width:55%">מסמך</th>
+                <th style="width:20%">דרישה</th>
+                <th style="width:25%">העלאה</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>מסמך בו המועמד/ת מספר/ת על עצמו/ה ועל הישגיו/ה</td>
+                <td><span class="badge-optional">אופציונלי</span></td>
+                <td>
+                  <input type="file" id="docSelfDesc" name="docSelfDesc" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="d-none">
+                  <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docSelfDesc')">בחר קובץ</button>
+                  <div class="file-chosen" id="docSelfDesc-name">לא נבחר קובץ</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Sport only docs -->
+          <div class="sport-docs" id="sportDocs" style="display:none">
+            <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים לתחום ספורט:</h6>
+            <table class="docs-table mb-4">
+              <thead>
+                <tr>
+                  <th style="width:55%">מסמך</th>
+                  <th style="width:20%">דרישה</th>
+                  <th style="width:25%">העלאה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>מכתב רשמי של ההתאחדות / האיגוד המאשר את ההישג, חתום ע"י בעל תפקיד מוסמך בציון שמו ותפקידו</td>
+                  <td><span class="badge-required">חובה</span></td>
+                  <td>
+                    <input type="file" id="docSportFed" name="docSportFed" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docSportFed')">בחר קובץ</button>
+                    <div class="file-chosen" id="docSportFed-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Music only docs -->
+          <div class="music-docs" id="musicDocs" style="display:none">
+            <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים לתחום מוזיקה:</h6>
+            <table class="docs-table mb-4">
+              <thead>
+                <tr>
+                  <th style="width:55%">מסמך</th>
+                  <th style="width:20%">דרישה</th>
+                  <th style="width:25%">העלאה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>מסמך רשמי המעיד על זכייה בתחרויות ו/או קבלת פרסים</td>
+                  <td><span class="badge-required">חובה</span></td>
+                  <td>
+                    <input type="file" id="docMusicAward" name="docMusicAward" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docMusicAward')">בחר קובץ</button>
+                    <div class="file-chosen" id="docMusicAward-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>מכתב המלצה מאיש מקצוע רלוונטי</td>
+                  <td><span class="badge-optional">אופציונלי</span></td>
+                  <td>
+                    <input type="file" id="docMusicRef" name="docMusicRef" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docMusicRef')">בחר קובץ</button>
+                    <div class="file-chosen" id="docMusicRef-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Art only docs -->
+          <div class="art-docs" id="artDocs" style="display:none">
+            <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים לתחום אמנות:</h6>
+            <table class="docs-table mb-4">
+              <thead>
+                <tr>
+                  <th style="width:55%">מסמך</th>
+                  <th style="width:20%">דרישה</th>
+                  <th style="width:25%">העלאה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>מסמך רשמי המעיד על קבלת הכרה מקצועית (פרסים, ביקורות, רכישת יצירות ע"י גלריות וכו')</td>
+                  <td><span class="badge-required">חובה</span></td>
+                  <td>
+                    <input type="file" id="docArtRecog" name="docArtRecog" accept=".pdf,.jpg,.jpeg,.png" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docArtRecog')">בחר קובץ</button>
+                    <div class="file-chosen" id="docArtRecog-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>מכתב המלצה מאיש מקצוע רלוונטי</td>
+                  <td><span class="badge-optional">אופציונלי</span></td>
+                  <td>
+                    <input type="file" id="docArtRef" name="docArtRef" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docArtRef')">בחר קובץ</button>
+                    <div class="file-chosen" id="docArtRef-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Other area docs -->
+          <div class="other-area-docs" id="otherAreaDocs" style="display:none">
+            <h6 class="fw-700 mb-2" style="color:var(--primary-dark)">מסמכים לתחום אחר:</h6>
+            <table class="docs-table mb-4">
+              <thead>
+                <tr>
+                  <th style="width:55%">מסמך</th>
+                  <th style="width:20%">דרישה</th>
+                  <th style="width:25%">העלאה</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>מסמך/מכתב רשמי ו/או כל תיעוד רלוונטי המעיד על זכייה בתחרויות ו/או קבלת פרסים ו/או קבלת הכרה מקצועית</td>
+                  <td><span class="badge-required">חובה</span></td>
+                  <td>
+                    <input type="file" id="docOtherProof" name="docOtherProof" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docOtherProof')">בחר קובץ</button>
+                    <div class="file-chosen" id="docOtherProof-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>מכתב המלצה מאיש מקצוע רלוונטי</td>
+                  <td><span class="badge-optional">אופציונלי</span></td>
+                  <td>
+                    <input type="file" id="docOtherRef" name="docOtherRef" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="d-none">
+                    <button type="button" class="btn btn-outline-primary upload-btn" onclick="triggerUpload('docOtherRef')">בחר קובץ</button>
+                    <div class="file-chosen" id="docOtherRef-name">לא נבחר קובץ</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div><!-- end excellence docs -->
+
+      </div>
+    </div>
+
+    <!-- ===== SECTION 7: FINAL DECLARATION + SIGNATURE ===== -->
+    <div class="section-card" id="sec-final">
+      <div class="section-header">
+        <div class="section-num" id="finalSecNum">7</div>
+        <h2 class="section-title">הצהרה סופית וחתימה</h2>
+      </div>
+      <div class="section-body">
+        <div class="declaration-box">
+          אני הח"מ מצהיר/ה ומתחייב/ת בזאת כי הטופס לעיל מולא על ידי, ההצהרות הכלולות בו הינן אמת,
+          ידוע לי וברור לי שהצהרה שאינה אמת מהווה עבירה פלילית, בין היתר (ולא רק) של ניסיון לקבל
+          דבר מה במרמה, או של קבלת דבר במרמה.
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6">
+            <label class="form-label required" for="declFullName">שם מלא</label>
+            <input type="text" class="form-control" id="declFullName" name="declFullName" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-3">
+            <label class="form-label required" for="declId">ת.ז.</label>
+            <input type="text" class="form-control" id="declId" name="declId" maxlength="9" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+          <div class="col-sm-3">
+            <label class="form-label required" for="declDate">תאריך</label>
+            <input type="date" class="form-control" id="declDate" name="declDate" required>
+            <div class="invalid-feedback">שדה חובה</div>
+          </div>
+        </div>
+
+        <label class="form-label required">חתימה</label>
+        <div class="sig-wrap" id="sigWrap">
+          <canvas id="sigCanvas" width="700" height="120"></canvas>
+          <div class="sig-hint">חתמו כאן עם העכבר או האצבע</div>
+        </div>
+        <div class="d-flex gap-2 mt-2 mb-2">
+          <button type="button" class="btn btn-outline-secondary sig-clear-btn" id="sigClearBtn">נקה חתימה</button>
+        </div>
+        <div class="invalid-feedback d-block" id="sigError" style="display:none!important"></div>
+
+        <!-- Submit -->
+        <div class="submit-area mt-4">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            שליחת הבקשה ⬆
+          </button>
+          <p class="text-muted mt-2" style="font-size:12px">הטופס יישמר כ-PDF ביחד עם שאר המסמכים בתיקיית המועמד</p>
+        </div>
+
+        <div class="status-msg alert alert-success" id="successMsg">
+          ✅ הבקשה נשלחה בהצלחה ונשמרה!
+        </div>
+        <div class="status-msg alert alert-danger" id="errorMsg">
+          ❌ אירעה שגיאה. אנא נסו שנית או פנו לתמיכה.
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div><!-- end form-container -->
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jsPDF + html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- Signature Pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+<!-- Google Drive Config -->
+<script src="assets/google-drive-config.js"></script>
+
+<script>
+// ===== ACADEMIC YEAR =====
+function getAcademicYear() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const endYear = year + 1;
+  return {
+    full: `${year}-${endYear}`,
+    short: `${year}-${String(endYear).slice(-1)}`
+  };
+}
+const academicYear = getAcademicYear();
+document.getElementById('headerYear').textContent = `שנת הלימודים ${academicYear.full}`;
+
+// ===== SCHOLARSHIP TYPE TOGGLE =====
+let currentType = null; // 'studies' | 'excellence'
+let currentExcellenceArea = null; // 'sport'|'music'|'art'|'other'
+
+// ===== DYNAMIC CHAMPIONSHIP ROWS =====
+let israelRowCount = 0;
+let europeRowCount = 0;
+
+function addIsraelRow() {
+  israelRowCount++;
+  const i = israelRowCount;
+  const div = document.createElement('div');
+  div.id = `israelRow_${i}`;
+  div.className = 'row g-2 mb-2 align-items-end';
+  div.innerHTML = `
+    <div class="col-sm-3">
+      <label class="form-label" style="font-size:12px">מקום</label>
+      <select class="form-select form-select-sm" name="israelPlace_${i}">
+        <option value="">בחר...</option>
+        <option>ראשון</option><option>שני</option><option>שלישי</option>
+      </select>
+    </div>
+    <div class="col-sm-4">
+      <label class="form-label" style="font-size:12px">ענף</label>
+      <input type="text" class="form-control form-control-sm" name="israelBranch_${i}" placeholder="שם הענף">
+    </div>
+    <div class="col-sm-4">
+      <label class="form-label" style="font-size:12px">קטגוריית גיל</label>
+      <input type="text" class="form-control form-control-sm" name="israelAge_${i}" placeholder="קטגוריה">
+    </div>
+    <div class="col-sm-1 d-flex align-items-end pb-1">
+      ${i > 1 ? `<button type="button" class="btn btn-sm btn-link text-danger p-0" onclick="document.getElementById('israelRow_${i}').remove()" title="הסר">✕</button>` : ''}
+    </div>
+  `;
+  document.getElementById('israelRows').appendChild(div);
+}
+
+function addEuropeRow() {
+  europeRowCount++;
+  const i = europeRowCount;
+  const div = document.createElement('div');
+  div.id = `europeRow_${i}`;
+  div.className = 'row g-2 mb-2 align-items-end';
+  div.innerHTML = `
+    <div class="col-sm-3">
+      <label class="form-label" style="font-size:12px">אליפות</label>
+      <select class="form-select form-select-sm" name="europeType_${i}">
+        <option value="">בחר...</option>
+        <option>אירופה</option><option>עולם</option>
+      </select>
+    </div>
+    <div class="col-sm-3">
+      <label class="form-label" style="font-size:12px">ענף</label>
+      <input type="text" class="form-control form-control-sm" name="europeBranch_${i}" placeholder="שם הענף">
+    </div>
+    <div class="col-sm-3">
+      <label class="form-label" style="font-size:12px">מקום</label>
+      <input type="text" class="form-control form-control-sm" name="europePlace_${i}" placeholder="מקום שזכיתי">
+    </div>
+    <div class="col-sm-2">
+      <label class="form-label" style="font-size:12px">קטגוריה</label>
+      <input type="text" class="form-control form-control-sm" name="europeCategory_${i}" placeholder="גיל/משקל/סגנון">
+    </div>
+    <div class="col-sm-1 d-flex align-items-end pb-1">
+      ${i > 1 ? `<button type="button" class="btn btn-sm btn-link text-danger p-0" onclick="document.getElementById('europeRow_${i}').remove()" title="הסר">✕</button>` : ''}
+    </div>
+  `;
+  document.getElementById('europeRows').appendChild(div);
+}
+
+// Initialize with one row each
+addIsraelRow();
+addEuropeRow();
+
+document.querySelectorAll('input[name="scholarshipType"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    currentType = this.value;
+    updateTypeCards();
+    updateVisibility();
+    updateSectionNumbers();
+    updateProgressStep(1);
+  });
+});
+
+function updateTypeCards() {
+  document.getElementById('cardStudies').classList.toggle('selected', currentType === 'studies');
+  document.getElementById('cardExcellence').classList.toggle('selected', currentType === 'excellence');
+}
+
+function updateVisibility() {
+  const isStudies = currentType === 'studies';
+  const isExcellence = currentType === 'excellence';
+  const isSport = isExcellence && currentExcellenceArea === 'sport';
+
+  // Show/hide sections
+  document.querySelectorAll('.studies-only').forEach(el => el.style.display = isStudies ? '' : 'none');
+  document.querySelectorAll('.excellence-only').forEach(el => el.style.display = isExcellence ? '' : 'none');
+  document.getElementById('sec-sport').style.display = isSport ? '' : 'none';
+
+  // Excellence declaration text
+  document.querySelectorAll('.excellence-only[data-in-decl]').forEach(el => el.style.display = isExcellence ? '' : 'none');
+
+  // Documents
+  if (isStudies) {
+    document.getElementById('studiesDocs').style.display = '';
+    document.getElementById('excellenceDocs').style.display = 'none';
+  } else if (isExcellence) {
+    document.getElementById('studiesDocs').style.display = 'none';
+    document.getElementById('excellenceDocs').style.display = '';
+    updateExcellenceAreaDocs();
+  }
+
+  // Residence text
+  const residentSpan1 = document.querySelector('.excellence-only[data-in-decl="1"]');
+  const residentSpan2 = document.querySelector('.studies-only[data-in-decl="1"]');
+
+  // Update prev submit/received labels
+  if (isStudies) {
+    document.getElementById('declPrevSubmitLabel').textContent = 'הגשת בקשה בעבר למלגה ללימודים אקדמיים מהמועצה המקומית אבן יהודה';
+    document.getElementById('declPrevReceivedLabel').textContent = 'קבלת מלגה ללימודים אקדמאיים בעבר מהמועצה המקומית אבן יהודה';
+  } else {
+    document.getElementById('declPrevSubmitLabel').textContent = 'הגשת בקשה בעבר למלגת הצטיינות מהמועצה המקומית אבן יהודה';
+    document.getElementById('declPrevReceivedLabel').textContent = 'קבלת מלגת הצטיינות בעבר מהמועצה המקומית אבן יהודה';
+  }
+}
+
+// Excellence area sub-toggle
+document.querySelectorAll('input[name="excellenceArea"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    currentExcellenceArea = this.value;
+    document.getElementById('excellenceAreaOther').style.display = this.value === 'other' ? '' : 'none';
+    updateVisibility();
+    updateExcellenceAreaDocs();
+  });
+});
+
+function updateExcellenceAreaDocs() {
+  document.getElementById('sportDocs').style.display     = currentExcellenceArea === 'sport'  ? '' : 'none';
+  document.getElementById('musicDocs').style.display     = currentExcellenceArea === 'music'  ? '' : 'none';
+  document.getElementById('artDocs').style.display       = currentExcellenceArea === 'art'    ? '' : 'none';
+  document.getElementById('otherAreaDocs').style.display = currentExcellenceArea === 'other'  ? '' : 'none';
+}
+
+// Volunteer "other" text
+document.querySelectorAll('input[name="volunteerOption"]').forEach(r => {
+  r.addEventListener('change', function() {
+    const otherChecked = document.querySelector('input[name="volunteerOption"][value="אחר"]')?.checked;
+    document.getElementById('volunteerOtherText').style.display = otherChecked ? '' : 'none';
+  });
+});
+
+// Previous received toggle
+document.querySelectorAll('input[name="prevReceived"]').forEach(r => {
+  r.addEventListener('change', function() {
+    document.getElementById('prevAmountWrap').style.display = this.value === 'קיבלתי' ? '' : 'none';
+  });
+});
+
+// Update section numbers
+function updateSectionNumbers() {
+  const isStudies = currentType === 'studies';
+  // sections: personal=2, sport=3(excellence+sport), studies=3, volunteer=4, declarations=5, docs=6, final=7
+  if (isStudies) {
+    document.getElementById('declSecNum').textContent = '5';
+    document.getElementById('docsSecNum').textContent = '6';
+    document.getElementById('finalSecNum').textContent = '7';
+  } else {
+    // excellence: personal=2, sport(if sport)=3, decl=3/4, docs=4/5, final=5/6
+    const hasSport = currentExcellenceArea === 'sport';
+    document.getElementById('declSecNum').textContent  = hasSport ? '4' : '3';
+    document.getElementById('docsSecNum').textContent  = hasSport ? '5' : '4';
+    document.getElementById('finalSecNum').textContent = hasSport ? '6' : '5';
+  }
+}
+
+// Update progress indicator
+function updateProgressStep(step) {
+  document.querySelectorAll('.progress-steps li').forEach((li, i) => {
+    li.classList.remove('active', 'done');
+    if (i < step) li.classList.add('done');
+    else if (i === step) li.classList.add('active');
+  });
+  document.querySelectorAll('.step-divider').forEach((div, i) => {
+    div.classList.toggle('done', i < step);
+  });
+}
+
+// ===== FILE UPLOAD =====
+function triggerUpload(inputId) {
+  document.getElementById(inputId).click();
+}
+document.querySelectorAll('input[type="file"]').forEach(input => {
+  input.addEventListener('change', function() {
+    const nameDiv = document.getElementById(this.id + '-name');
+    if (nameDiv) {
+      nameDiv.textContent = this.files.length ? this.files[0].name : 'לא נבחר קובץ';
+    }
+    // Remove red error state once file is chosen
+    const btn = this.nextElementSibling;
+    if (btn && this.files.length) {
+      btn.classList.remove('btn-danger');
+      btn.classList.add('btn-outline-primary');
+    }
+  });
+});
+
+// ===== SIGNATURE PAD =====
+const sigCanvas = document.getElementById('sigCanvas');
+const sigPad = new SignaturePad(sigCanvas, {
+  backgroundColor: 'rgba(0,0,0,0)',
+  penColor: '#000'
+});
+const sigWrap = document.getElementById('sigWrap');
+
+sigPad.addEventListener('afterUpdateStroke', () => {
+  sigWrap.classList.add('has-sig');
+});
+
+document.getElementById('sigClearBtn').addEventListener('click', () => {
+  sigPad.clear();
+  sigWrap.classList.remove('has-sig');
+});
+
+// Resize canvas properly
+function resizeSigCanvas() {
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  const w = sigCanvas.offsetWidth;
+  const h = sigCanvas.offsetHeight;
+  sigCanvas.width = w * ratio;
+  sigCanvas.height = h * ratio;
+  sigCanvas.getContext('2d').scale(ratio, ratio);
+  sigPad.clear();
+}
+window.addEventListener('resize', resizeSigCanvas);
+resizeSigCanvas();
+
+// Set today date
+document.getElementById('declDate').valueAsDate = new Date();
+
+// ===== VALIDATION =====
+function validateForm() {
+  let valid = true;
+  const form = document.getElementById('scholarshipForm');
+
+  // Type selection
+  if (!currentType) {
+    const err = document.getElementById('typeError');
+    err.style.setProperty('display', 'block', 'important');
+    err.textContent = 'נא לבחור סוג מלגה';
+    valid = false;
+  }
+
+  // Required text/select/email/date inputs
+  form.querySelectorAll('input[required], select[required], textarea[required]').forEach(input => {
+    // Skip hidden inputs
+    if (input.closest('[style*="display: none"]') || input.closest('[style*="display:none"]')) return;
+    if (!input.value.trim()) {
+      input.classList.add('is-invalid');
+      valid = false;
+    } else {
+      input.classList.remove('is-invalid');
+    }
+  });
+
+  // Excellence area
+  if (currentType === 'excellence') {
+    if (!currentExcellenceArea) {
+      document.getElementById('excellenceAreaError').style.setProperty('display', 'block', 'important');
+      valid = false;
+    } else {
+      document.getElementById('excellenceAreaError').style.setProperty('display', 'none', 'important');
+    }
+  }
+
+  // Degree type (studies)
+  if (currentType === 'studies') {
+    if (!document.querySelector('input[name="degreeType"]:checked')) {
+      document.getElementById('degreeTypeError').textContent = 'נא לבחור סוג תואר';
+      document.getElementById('degreeTypeError').style.setProperty('display', 'block', 'important');
+      valid = false;
+    } else {
+      document.getElementById('degreeTypeError').style.setProperty('display', 'none', 'important');
+    }
+    // Volunteer — at least one checkbox checked
+    if (!document.querySelector('input[name="volunteerOption"]:checked')) {
+      document.getElementById('volunteerError').textContent = 'נא לבחור לפחות מסגרת התנדבות אחת';
+      document.getElementById('volunteerError').style.setProperty('display', 'block', 'important');
+      valid = false;
+    } else {
+      document.getElementById('volunteerError').style.setProperty('display', 'none', 'important');
+    }
+  }
+
+  // Declarations
+  if (!document.getElementById('declResident').checked) {
+    document.getElementById('declResident').classList.add('is-invalid');
+    valid = false;
+  }
+  if (!document.querySelector('input[name="prevSubmitted"]:checked')) {
+    document.getElementById('prevSubmittedError').textContent = 'שדה חובה';
+    document.getElementById('prevSubmittedError').style.setProperty('display', 'block', 'important');
+    valid = false;
+  } else {
+    document.getElementById('prevSubmittedError').style.setProperty('display', 'none', 'important');
+  }
+  if (!document.querySelector('input[name="prevReceived"]:checked')) {
+    document.getElementById('prevReceivedError').textContent = 'שדה חובה';
+    document.getElementById('prevReceivedError').style.setProperty('display', 'block', 'important');
+    valid = false;
+  } else {
+    document.getElementById('prevReceivedError').style.setProperty('display', 'none', 'important');
+  }
+
+  // Required file uploads
+  const requiredFiles = ['docId'];
+  if (currentType === 'studies') requiredFiles.push('docStudent', 'docTuition', 'docSocialWork', 'docPisDecl');
+  if (currentType === 'excellence') {
+    if (currentExcellenceArea === 'sport') requiredFiles.push('docSportFed');
+    if (currentExcellenceArea === 'music') requiredFiles.push('docMusicAward');
+    if (currentExcellenceArea === 'art') requiredFiles.push('docArtRecog');
+    if (currentExcellenceArea === 'other') requiredFiles.push('docOtherProof');
+  }
+  requiredFiles.forEach(id => {
+    const inp = document.getElementById(id);
+    if (inp && inp.files.length === 0) {
+      const btn = inp.nextElementSibling;
+      if (btn) btn.classList.add('btn-danger');
+      valid = false;
+    }
+  });
+
+  // Signature
+  if (sigPad.isEmpty()) {
+    document.getElementById('sigError').textContent = 'נא לחתום על הטופס';
+    document.getElementById('sigError').style.setProperty('display', 'block', 'important');
+    document.getElementById('sigWrap').style.borderColor = 'var(--required-color)';
+    valid = false;
+  } else {
+    document.getElementById('sigError').style.setProperty('display', 'none', 'important');
+    document.getElementById('sigWrap').style.borderColor = '';
+  }
+
+  return valid;
+}
+
+// ===== PDF GENERATION =====
+async function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const element = document.getElementById('scholarshipForm');
+
+  // Temporarily hide submit button and status messages
+  document.getElementById('submitBtn').style.display = 'none';
+
+  const canvas = await html2canvas(element, {
+    scale: 1.5,
+    useCORS: true,
+    logging: false,
+    backgroundColor: '#ffffff'
+  });
+
+  document.getElementById('submitBtn').style.display = '';
+
+  const imgData = canvas.toDataURL('image/jpeg', 0.92);
+  const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+  const pageW = pdf.internal.pageSize.getWidth();
+  const pageH = pdf.internal.pageSize.getHeight();
+  const imgW = pageW - 20;
+  const imgH = (canvas.height * imgW) / canvas.width;
+  let yPos = 10;
+
+  if (imgH <= pageH - 20) {
+    pdf.addImage(imgData, 'JPEG', 10, yPos, imgW, imgH);
+  } else {
+    // Multi-page
+    let remaining = imgH;
+    let srcY = 0;
+    while (remaining > 0) {
+      const sliceH = Math.min(pageH - 20, remaining);
+      const sliceCanvas = document.createElement('canvas');
+      sliceCanvas.width = canvas.width;
+      sliceCanvas.height = (sliceH / imgW) * canvas.width;
+      const ctx = sliceCanvas.getContext('2d');
+      ctx.drawImage(canvas, 0, srcY * (canvas.height / imgH), canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
+      if (srcY > 0) pdf.addPage();
+      pdf.addImage(sliceCanvas.toDataURL('image/jpeg', 0.92), 'JPEG', 10, yPos, imgW, sliceH);
+      srcY += sliceH;
+      remaining -= sliceH;
+    }
+  }
+
+  return pdf.output('blob');
+}
+
+// ===== GOOGLE DRIVE INTEGRATION =====
+let accessToken = null;
+
+async function getAccessToken() {
+  return new Promise((resolve, reject) => {
+    if (accessToken) { resolve(accessToken); return; }
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_DRIVE_CONFIG.CLIENT_ID,
+      scope: GOOGLE_DRIVE_CONFIG.SCOPES,
+      callback: (response) => {
+        if (response.error) { reject(response); return; }
+        accessToken = response.access_token;
+        resolve(accessToken);
+      }
+    });
+    client.requestAccessToken();
+  });
+}
+
+async function findOrCreateFolder(name, parentId) {
+  const token = await getAccessToken();
+  // Search for existing
+  let query = `mimeType='application/vnd.google-apps.folder' and name='${name}' and trashed=false`;
+  if (parentId) query += ` and '${parentId}' in parents`;
+
+  const searchRes = await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id,name)`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  const searchData = await searchRes.json();
+  if (searchData.files && searchData.files.length > 0) return searchData.files[0].id;
+
+  // Create folder
+  const body = { name, mimeType: 'application/vnd.google-apps.folder' };
+  if (parentId) body.parents = [parentId];
+  const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const folder = await createRes.json();
+  return folder.id;
+}
+
+async function uploadFileToDrive(fileBlob, fileName, mimeType, parentId) {
+  const token = await getAccessToken();
+  const metadata = { name: fileName, parents: [parentId] };
+  const form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+  form.append('file', fileBlob, fileName);
+
+  await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: form
+  });
+}
+
+async function saveToGoogleDrive(pdfBlob, additionalFiles) {
+  const rootId = GOOGLE_DRIVE_CONFIG.ROOT_FOLDER_ID || null;
+  const scholarshipFolder = await findOrCreateFolder(GOOGLE_DRIVE_CONFIG.ROOT_FOLDER_NAME, rootId);
+  const yearFolder = await findOrCreateFolder(academicYear.short, scholarshipFolder);
+
+  const subFolderName = currentType === 'studies' ? 'לימודים' : 'מצטיינים';
+  const typeFolder = await findOrCreateFolder(subFolderName, yearFolder);
+
+  const lastName = document.getElementById('lastName').value.trim();
+  const firstName = document.getElementById('firstName').value.trim();
+  const candidateName = `${firstName} ${lastName}`;
+  const candidateFolder = await findOrCreateFolder(candidateName, typeFolder);
+
+  // Upload PDF
+  const formType = currentType === 'studies' ? 'מלגת_לימודים' : 'מלגת_הצטיינות';
+  await uploadFileToDrive(pdfBlob, `${formType}_${candidateName}_${academicYear.short}.pdf`, 'application/pdf', candidateFolder);
+
+  // Upload additional documents
+  for (const { file, label } of additionalFiles) {
+    if (file) {
+      const ext = file.name.split('.').pop();
+      await uploadFileToDrive(file, `${label}_${candidateName}.${ext}`, file.type, candidateFolder);
+    }
+  }
+}
+
+// ===== FORM SUBMIT =====
+document.getElementById('scholarshipForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!validateForm()) {
+    document.querySelector('.is-invalid, [style*="display: block"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '⏳ שומר...';
+
+  try {
+    const pdfBlob = await generatePDF();
+
+    // Collect uploaded files
+    const files = [
+      { file: document.getElementById('docId').files[0], label: 'תעודת_זהות' },
+      { file: document.getElementById('docStudent')?.files[0], label: 'תעודת_סטודנט' },
+      { file: document.getElementById('docTuition')?.files[0], label: 'אישור_שכר_לימוד' },
+      { file: document.getElementById('docSocialWork')?.files[0], label: 'חוות_דעת_שרותים_חברתיים' },
+      { file: document.getElementById('docPisDecl')?.files[0], label: 'הצהרת_מפעל_הפיס' },
+      { file: document.getElementById('docSelfDesc')?.files[0], label: 'תיאור_עצמי' },
+      { file: document.getElementById('docSportFed')?.files[0], label: 'מכתב_התאחדות_ספורט' },
+      { file: document.getElementById('docMusicAward')?.files[0], label: 'פרס_מוזיקה' },
+      { file: document.getElementById('docMusicRef')?.files[0], label: 'המלצה_מוזיקה' },
+      { file: document.getElementById('docArtRecog')?.files[0], label: 'הכרה_אמנות' },
+      { file: document.getElementById('docArtRef')?.files[0], label: 'המלצה_אמנות' },
+      { file: document.getElementById('docOtherProof')?.files[0], label: 'תיעוד_אחר' },
+      { file: document.getElementById('docOtherRef')?.files[0], label: 'המלצה_אחר' },
+    ].filter(f => f.file);
+
+    await saveToGoogleDrive(pdfBlob, files);
+
+    document.getElementById('successMsg').style.display = 'block';
+    submitBtn.style.display = 'none';
+    document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth' });
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('errorMsg').style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'שליחת הבקשה ⬆';
+  }
+});
+
+// Remove validation state on input
+document.getElementById('scholarshipForm').querySelectorAll('input, select, textarea').forEach(input => {
+  input.addEventListener('input', function() { this.classList.remove('is-invalid'); });
+});
+</script>
+</body>
+</html>
